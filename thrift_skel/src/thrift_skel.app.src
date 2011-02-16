@@ -1,16 +1,14 @@
 %%% -*- mode:erlang -*-
-{application, %APP_NAME%,
+{application, SKEL_SHORTNAME,
  [
   % A quick description of the application.
   {description, "Generic erlang thrift server"},
 
   % The version of the applicaton
-  {vsn, "%VSN%"},
+  {vsn, "0.0.0"},
 
   % All modules used by the application.
-  {modules, [
-       %MODULES%
-   ]},
+  {modules, []},
 
   % All of the registered names the application uses. This can be ignored.
   {registered, []},
@@ -36,6 +34,6 @@
   ]},
 
   % The Module and Args used to start this application.
-  {mod, {%APP_NAME%_app, []}}
+  {mod, {SKEL_SHORTNAME_app, []}}
  ]
 }.

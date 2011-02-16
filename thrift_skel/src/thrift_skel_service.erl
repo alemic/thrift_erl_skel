@@ -13,24 +13,29 @@
 %%%%% EXTERNAL INTERFACE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 start_link() ->
-    thrift_server:start_link(get_port(), SKEL_ERLANGIFIED_LONGNAME_thrift, ?MODULE).
+  thrift_socket_server:start ([{port, get_port()},
+                               {name, ?MODULE},
+                               {service, SKEL_ERLANGIFIED_LONGNAME_thrift},
+                               {handler, ?MODULE},
+                               {framed, true},
+                               {socket_opts, [{recv_timeout, 60*60*1000}]}]).
 
-stop(Server) ->
-    thrift_server:stop(Server),
-    ok.
+stop(_Server) ->
+  thrift_socket_server:stop (?MODULE),
+  ok.
 
 %%%%% THRIFT INTERFACE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 handle_function(Function, Args) when is_atom(Function), is_tuple(Args) ->
-    case apply(?MODULE, Function, tuple_to_list(Args)) of
-        ok -> ok;
-        Reply -> {reply, Reply}
-    end.
+  case apply(?MODULE, Function, tuple_to_list(Args)) of
+    ok -> ok;
+    Reply -> {reply, Reply}
+  end.
 
 %%%%% HELPER FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 get_port() ->
-    {ok, Result} = application:get_env(SKEL_SHORTNAME, service_port),
-    Result.
+  {ok, Result} = application:get_env(SKEL_SHORTNAME, service_port),
+  Result.
 
-
+%% ADD THRIFT FUNCTIONS HERE

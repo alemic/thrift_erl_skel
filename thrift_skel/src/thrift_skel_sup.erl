@@ -1,9 +1,9 @@
 %%%-------------------------------------------------------------------
 %%% File    : SKEL_SHORTNAME_sup.erl
-%%% Author  :  <todd@amiestreet.com>
-%%% Description : Price Service supervisor
+%%% Author  :
+%%% Description :
 %%%
-%%% Created :  5 Feb 2008 by  <todd@amiestreet.com>
+%%% Created :
 %%%-------------------------------------------------------------------
 -module(SKEL_SHORTNAME_sup).
 
@@ -25,7 +25,7 @@
 %% Description: Starts the supervisor
 %%--------------------------------------------------------------------
 start_link() ->
-    supervisor:start_link({local, ?SERVER}, ?MODULE, []).
+  supervisor:start_link({local, ?SERVER}, ?MODULE, []).
 
 %%====================================================================
 %% Supervisor callbacks

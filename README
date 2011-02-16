@@ -1,0 +1,25 @@
+Makes simple thrift skeleton server based on a template.
+
+For instance if you have a file foo.thrift with the following contents
+
+service Foo {
+  void bar (1: i32 baz)
+}
+
+Then run
+
+% git clone git://github.com/djnym/thrift_erl_skel.git
+% thrift_erl_skel/make_new_thrift.pl foo foo.thrift 9999
+% cd foo
+% edit src/foo_service.erl
+
+add bar/1 to export
+add the following at the end of the file
+
+bar (I) ->
+  io:format ("bar (~p)~n",[I]).
+
+% rebar compile
+% ./start_foo.sh
+
+Creating a client to talk to the server is left as an exercise for the reader.

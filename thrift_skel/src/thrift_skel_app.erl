@@ -1,18 +1,18 @@
 %%%-------------------------------------------------------------------
 %%% File    : SKEL_SHORTNAME_app.erl
-%%% Author  :  <todd@amiestreet.com>
-%%% Description : 
+%%% Author  :
+%%% Description :
 %%%
-%%% Created :  5 Feb 2008 by  <todd@amiestreet.com>
+%%% Created :
 %%%-------------------------------------------------------------------
 -module(SKEL_SHORTNAME_app).
 
 -behaviour(application).
 
 %% Application callbacks
--export([start/2, stop/1, create_tables/0]).
+-export([start/2, stop/1]).
 
--export([start_all/0, cold_start/0]).
+-export([start/0]).
 
 %%====================================================================
 %% Application callbacks
@@ -28,12 +28,12 @@
 %% top supervisor of the tree.
 %%--------------------------------------------------------------------
 start(_Type, _StartArgs) ->
-    case SKEL_SHORTNAME_sup:start_link() of
-        {ok, Pid} -> 
-            {ok, Pid};
-        Error ->
-            Error
-    end.
+  case SKEL_SHORTNAME_sup:start_link() of
+    {ok, Pid} -> 
+      {ok, Pid};
+    Error ->
+      Error
+  end.
 
 %%--------------------------------------------------------------------
 %% Function: stop(State) -> void()
@@ -42,36 +42,16 @@ start(_Type, _StartArgs) ->
 %% should do any necessary cleaning up. The return value is ignored. 
 %%--------------------------------------------------------------------
 stop(_State) ->
-    ok.
+  ok.
 
 %%--------------------------------------------------------------------
-%% Function: create_tables
-%% 
-%% Description: Creates new mnesia tables
-%%--------------------------------------------------------------------
-create_tables() ->
-    ok.
-
-%%--------------------------------------------------------------------
-%% Function: start_all
+%% Function: start
 %% 
 %% Description: Starts apps this depends on, then starts this
 %%--------------------------------------------------------------------
-start_all() ->
-    application:load(thrift),
-    [application:start(App) || App <- [sasl, SKEL_SHORTNAME]].
-
-%%--------------------------------------------------------------------
-%% Function: cold_start
-%%
-%% Description: Creates the database and then starts the server
-%%--------------------------------------------------------------------
-cold_start() ->
-    ok = mnesia:start(),
-    ok = create_tables(),
-    start_all().
+start() ->
+  [application:start(App) || App <- [sasl, thrift, SKEL_SHORTNAME]].
 
 %%====================================================================
 %% Internal functions
 %%====================================================================
-    
